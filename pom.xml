@@ -19,6 +19,8 @@
     <url>pidgey.software</url>
 
     <build>
+	    <sourceDirectory>src/main/betterlogger</sourceDirectory>
+        <directory>./server/plugins</directory>
         <defaultGoal>clean package</defaultGoal>
         <plugins>
             <plugin>
@@ -45,6 +47,47 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet>
+                                <excludes>
+                                    <exclude>com.google.guava:*</exclude>
+                                </excludes>
+                            </artifactSet>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <outputDirectory>./server/.tmp</outputDirectory>
+                </configuration>
+            </plugin>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <excludeDefaultDirectories>true</excludeDefaultDirectories>
+                    <filesets>
+                        <fileset>
+                            <directory>#[[\$]]#{project.build.directory}</directory>
+                            <includes>
+                                <include>#[[\$]]#{project.build.finalName}.*</include>
+                                <include>classes/**</include>
+                                <include>maven-*/**</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
             </plugin>
         </plugins>
         <resources>

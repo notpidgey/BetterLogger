@@ -1,0 +1,9 @@
+name: BetterLogger
+version: 1.0-SNAPSHOT
+main: software.pidgey.betterlogger.BetterLogger
+api-version: 1.13
+prefix: BLOG
+load: STARTUP
+authors: [Pidgey]
+description: Logs server intercations to a database
+website: pidgey.software

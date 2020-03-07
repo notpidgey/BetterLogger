@@ -32,9 +32,14 @@ public final class BetterLogger extends JavaPlugin {
             file.getParentFile().mkdirs();
             System.out.println("Database does not exist, creating database.");
             sqlCreate();
+            sqlOpen();
         }
-        else
+        else{
             System.out.println("Database already exists, proceeding.");
+            sqlOpen();
+        }
+
+        getServer().getPluginManager().registerEvents(new Events(),this);
     }
 
     @Override
@@ -42,20 +47,8 @@ public final class BetterLogger extends JavaPlugin {
         // Plugin shutdown logic
     }
 
-    public void sqlCreate(){
-
+    public void sqlOpen(){
         String url = "jdbc:sqlite:" + file.getAbsolutePath();
-        try {
-            conn = DriverManager.getConnection(url);
-            if(conn != null){
-                DatabaseMetaData meta = conn.getMetaData();
-                System.out.println("Database created.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Something went wrong when creating a database");
-        }
-
         try {
             connSource = new JdbcConnectionSource(url);
             blockDao = DaoManager.createDao(connSource, BlockInteraction.class);
@@ -71,7 +64,19 @@ public final class BetterLogger extends JavaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-        getServer().getPluginManager().registerEvents(new Events(),this);
+    public void sqlCreate(){
+        String url = "jdbc:sqlite:" + file.getAbsolutePath();
+        try {
+            conn = DriverManager.getConnection(url);
+            if(conn != null){
+                DatabaseMetaData meta = conn.getMetaData();
+                System.out.println("Database created.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Something went wrong when creating a database");
+        }
     }
 }
