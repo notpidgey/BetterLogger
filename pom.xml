@@ -19,7 +19,7 @@
     <url>pidgey.software</url>
 
     <build>
-	    <sourceDirectory>src/main/betterlogger</sourceDirectory>
+	    <sourceDirectory>src/main/java/software/pidgey/betterlogger</sourceDirectory>
         <directory>./server/plugins</directory>
         <defaultGoal>clean package</defaultGoal>
         <plugins>

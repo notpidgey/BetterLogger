@@ -5,7 +5,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
 import software.pidgey.betterlogger.SQLData.BlockInteraction;
 
@@ -32,6 +34,12 @@ public class Events implements Listener {
         blockBreak.block = breakEvent.getBlock().getType().toString();
 
         blockBreak.setLocation(breakEvent.getBlock().getLocation());
+
+        try {
+            blockDao.create(blockBreak);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @EventHandler
@@ -44,6 +52,19 @@ public class Events implements Listener {
         blockPlace.block = placeEvent.getBlock().getType().toString();
 
         blockPlace.setLocation(placeEvent.getBlock().getLocation());
+
+        try {
+            blockDao.create(blockPlace);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @EventHandler
+    private void onChestMove(InventoryMoveItemEvent moveEvent){
+        if(moveEvent.getSource().getType() == InventoryType.CHEST){
+            System.out.println("INVENTORY TYPE CHEST");
+        }
     }
 
     @EventHandler

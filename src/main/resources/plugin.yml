@@ -1,7 +1,7 @@
 name: BetterLogger
 version: ${project.version}
 main: software.pidgey.betterlogger.BetterLogger
-api-version: 1.13
+api-version: 1.15
 prefix: BLOG
 load: STARTUP
 authors: [Pidgey]
