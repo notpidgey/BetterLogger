@@ -26,8 +26,5 @@ Steps to export (via SQLite Studio)
 4. Choose table you're looking to export
 5. Save as CSV
 
-(https://img.pidgey.software/f/MentalWorkUnitedSquadW.gif)
-With this you will easily be able to filter your data through Microsoft Excel
-
 ## Licence
 Copyright © Anton H and Contributors. Licensed under the MIT Licence (MIT). See [LICENCE](LICENCE.md) in the repository root for more information.
