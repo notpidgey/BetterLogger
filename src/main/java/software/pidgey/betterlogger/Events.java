@@ -1,124 +1,89 @@
 package software.pidgey.betterlogger;
 
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.inventory.InventoryMoveItemEvent;
-import org.bukkit.event.inventory.InventoryPickupItemEvent;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
-import software.pidgey.betterlogger.SQLData.BlockInteraction;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
+import software.pidgey.betterlogger.ChestData.ChestMovementData;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
-import static software.pidgey.betterlogger.BetterLogger.blockDao;
+import static software.pidgey.betterlogger.BetterLogger.chestDao;
 
 public class Events implements Listener {
 
-    private Date getDate(){
-        Date date = new Date();
-        return date;
-    }
-
     @EventHandler
-    private void onBreakBlock(BlockBreakEvent breakEvent){
-        BlockInteraction blockBreak = new BlockInteraction();
-
-        blockBreak.time = getDate();
-        blockBreak.player = breakEvent.getPlayer().getName();
-        blockBreak.interactionType = "Break";
-        blockBreak.block = breakEvent.getBlock().getType().toString();
-
-        blockBreak.setLocation(breakEvent.getBlock().getLocation());
-
-        try {
-            blockDao.create(blockBreak);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @EventHandler
-    private void onPlace(BlockPlaceEvent placeEvent) {
-        BlockInteraction blockPlace = new BlockInteraction();
-
-        blockPlace.time = getDate();
-        blockPlace.player = placeEvent.getPlayer().getName();
-        blockPlace.interactionType = "Break";
-        blockPlace.block = placeEvent.getBlock().getType().toString();
-
-        blockPlace.setLocation(placeEvent.getBlock().getLocation());
-
-        try {
-            blockDao.create(blockPlace);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @EventHandler
-    private void onChestMove(InventoryMoveItemEvent moveEvent){
-        if(moveEvent.getSource().getType() == InventoryType.CHEST){
-            System.out.println("INVENTORY TYPE CHEST");
-        }
-    }
-
-    @EventHandler
-    private void onEnterBed(PlayerBedEnterEvent bedEnterEvent){
+    private void onEnterBed(PlayerBedEnterEvent bedEnterEvent) {
 
     }
 
     @EventHandler
-    private void onLeaveBed(PlayerBedLeaveEvent bedLeaveEvent){
+    private void onLeaveBed(PlayerBedLeaveEvent bedLeaveEvent) {
 
     }
 
     @EventHandler
-    private void onDropItem(PlayerDropItemEvent dropItemEvent){
+    private void onDropItem(PlayerDropItemEvent dropItemEvent) {
 
     }
 
     @EventHandler
-    private void onWorldEvent(PlayerLevelChangeEvent levelChangeEvent){
+    private void onWorldEvent(PlayerLevelChangeEvent levelChangeEvent) {
 
     }
 
     @EventHandler
-    private void onKill(PlayerPortalEvent portalEvent){
+    private void onKill(PlayerPortalEvent portalEvent) {
 
     }
 
     @EventHandler
-    private void onKill(PlayerJoinEvent joinEvent){
+    private void onKill(PlayerJoinEvent joinEvent) {
 
     }
 
     @EventHandler
-    private void onKill(PlayerQuitEvent quitEvent){
+    private void onKill(PlayerQuitEvent quitEvent) {
 
     }
 
     @EventHandler
-    private void onKill(PlayerGameModeChangeEvent gameModeChangeEvent){
+    private void onKill(PlayerGameModeChangeEvent gameModeChangeEvent) {
 
     }
 
     @EventHandler
-    private void onKill(PlayerItemConsumeEvent itemConsumeEvent){
+    private void onKill(PlayerItemConsumeEvent itemConsumeEvent) {
 
     }
 
     @EventHandler
-    private void onKill(PlayerDeathEvent deathEvent){
+    private void onKill(PlayerDeathEvent deathEvent) {
 
     }
 
     @EventHandler
-    private void onKill(PlayerRespawnEvent respawnEvent){
+    private void onKill(PlayerRespawnEvent respawnEvent) {
 
     }
 
@@ -126,4 +91,5 @@ public class Events implements Listener {
     private void onPickup(InventoryPickupItemEvent pickupItemEvent) {
 
     }
+
 }

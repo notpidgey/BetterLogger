@@ -19,7 +19,7 @@
     <url>pidgey.software</url>
 
     <build>
-	    <sourceDirectory>src/main/java/software/pidgey/betterlogger</sourceDirectory>
+	    <sourceDirectory>src/main/java</sourceDirectory>
         <directory>./server/plugins</directory>
         <defaultGoal>clean package</defaultGoal>
         <plugins>
@@ -110,6 +110,17 @@
     </repositories>
 
     <dependencies>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.10.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-yaml</artifactId>
+			<version>2.10.3</version>
+		</dependency>
+		
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>

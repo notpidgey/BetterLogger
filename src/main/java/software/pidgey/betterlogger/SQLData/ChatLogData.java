@@ -1,4 +1,4 @@
 package software.pidgey.betterlogger.SQLData;
 
-public class ChatLog {
+public class ChatLogData {
 }
