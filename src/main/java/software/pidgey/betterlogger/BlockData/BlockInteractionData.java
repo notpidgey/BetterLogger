@@ -52,6 +52,6 @@ public class BlockInteractionData {
 
     public void setUid(Player player){
         uid = player.getUniqueId().toString();
-        username = player.getDisplayName();
+        username = player.getName();
     }
 }

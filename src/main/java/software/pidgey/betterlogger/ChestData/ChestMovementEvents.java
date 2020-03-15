@@ -139,7 +139,7 @@ public class ChestMovementEvents implements Listener {
 
         chestMovement.time = getDate();
         chestMovement.uuid = player.getUniqueId().toString();
-        chestMovement.player = player.getDisplayName();
+        chestMovement.player = player.getName();
         chestMovement.interactionType = "TAKE";
         chestMovement.block = block;
 
