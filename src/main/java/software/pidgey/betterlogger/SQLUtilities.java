@@ -2,29 +2,39 @@ package software.pidgey.betterlogger;
 
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
+import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import software.pidgey.betterlogger.BlockData.BlockInteractionData;
 import software.pidgey.betterlogger.ChestData.ChestMovementData;
 
 import java.io.IOException;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
-import static software.pidgey.betterlogger.BetterLogger.connSource;
-import static software.pidgey.betterlogger.BetterLogger.databaseFile;
 import static software.pidgey.betterlogger.BetterLogger.chestDao;
 import static software.pidgey.betterlogger.BetterLogger.blockDao;
-import static software.pidgey.betterlogger.BetterLogger.conn;
 
 public class SQLUtilities {
 
+    public static String connectionURL = "jdbc:postgresql://localhost:5432/BetterLogger";
+    public static Connection conn;
+    public static ConnectionSource connSource;
+
     public static void sqlOpen(){
-        String url = "jdbc:sqlite:" + databaseFile.getAbsolutePath();
         try {
-            connSource = new JdbcConnectionSource(url);
             blockDao = DaoManager.createDao(connSource, BlockInteractionData.class);
             chestDao = DaoManager.createDao(connSource, ChestMovementData.class);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void sqlCreate(){
+        try {
+            conn = DriverManager.getConnection("jdbc:postgresql://localhost/postgres", "admin", "admin");
+            Statement statement = conn.createStatement();
+            statement.executeUpdate("CREATE DATABASE \"BetterLogger\"");
+
+            connSource = new JdbcConnectionSource(connectionURL, "admin", "admin");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -38,19 +48,7 @@ public class SQLUtilities {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
 
-    public static void sqlCreate(){
-        String url = "jdbc:sqlite:" + databaseFile.getAbsolutePath();
-        try {
-            conn = DriverManager.getConnection(url);
-            if(conn != null){
-                DatabaseMetaData meta = conn.getMetaData();
-                System.out.println("Database created.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Something went wrong when creating a database");
-        }
+        sqlOpen();
     }
 }

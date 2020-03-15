@@ -12,6 +12,7 @@ import software.pidgey.betterlogger.BlockData.BlockInteractionData;
 import software.pidgey.betterlogger.BlockData.BlockInteractionEvents;
 import software.pidgey.betterlogger.ChestData.ChestMovementData;
 import software.pidgey.betterlogger.ChestData.ChestMovementEvents;
+import software.pidgey.betterlogger.Commands.CommandManager;
 import software.pidgey.betterlogger.SQLUtilities;
 
 import java.io.File;
@@ -19,15 +20,9 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.sql.*;
 
-import static software.pidgey.betterlogger.SQLUtilities.sqlCreate;
-import static software.pidgey.betterlogger.SQLUtilities.sqlOpen;
+import static software.pidgey.betterlogger.SQLUtilities.*;
 
 public final class BetterLogger extends JavaPlugin {
-
-    public static File databaseFile;
-    public static PrintStream fileStream;
-    public static Connection conn;
-    public static ConnectionSource connSource;
 
     public static Dao<BlockInteractionData, String> blockDao;
     public static Dao<ChestMovementData, String> chestDao;
@@ -36,33 +31,38 @@ public final class BetterLogger extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         getLogger().info("BetterLogger is now running.");
-        databaseFile = new File(Bukkit.getServer().getPluginManager().getPlugin("BetterLogger").getDataFolder().getAbsolutePath(),
-                "BetterLogger.db");
         configurationFile = new File(Bukkit.getServer().getPluginManager().getPlugin("BetterLogger").getDataFolder().getAbsolutePath(),
                 "Plugin.yml");
 
-        if(!databaseFile.exists()){
-            databaseFile.getParentFile().mkdirs();
-            System.out.println("Database does not exist, creating database.");
+        try{
+            conn = DriverManager.getConnection(connectionURL, "admin", "admin");
+            connSource = new JdbcConnectionSource(connectionURL);
+            sqlOpen();
+        }catch (Exception ex){
             sqlCreate();
-            sqlOpen();
-        }
-        else{
-            System.out.println("Database already exists, proceeding.");
-            sqlOpen();
-        }
-
-        if(!configurationFile.exists()){
-            setupConfig();
         }
 
         registerEvents(new Listener[] {new BlockInteractionEvents(), new ChestMovementEvents(this)});
+        registerCommands(new String[] {"queryRaw", ""});
     }
 
     private void registerEvents(Listener[] listeners) {
         for (Listener listener : listeners) {
             getServer().getPluginManager().registerEvents(listener, this);
+        }
+    }
+
+    private void registerCommands(String[] commands){
+        for(String command : commands){
+            getCommand(command).setExecutor(new CommandManager());
         }
     }
 
