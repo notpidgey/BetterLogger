@@ -53,7 +53,7 @@ public class GetHistory extends SubCommand {
                     player.sendMessage(encloseText("Player") +rs.getString("Username"));
                     player.sendMessage(encloseText("Event") + rs.getString("Interaction Type"));
                     player.sendMessage(encloseText("Block") + rs.getString("Block"));
-                    player.sendMessage(encloseText("---------------------------------------------------"));
+                    player.sendMessage(encloseText("--------------------------------------------------"));
                 }
             }
         } catch (SQLException e) {
