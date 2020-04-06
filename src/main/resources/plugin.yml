@@ -7,3 +7,6 @@ load: STARTUP
 authors: [Pidgey]
 description: Logs server intercations to a database
 website: pidgey.software
+commands:
+  BetterLogger:
+    description: Interact with better logger and PostgreSQL.

@@ -1,10 +1,9 @@
-package software.pidgey.betterlogger.BlockData;
+package software.pidgey.betterlogger.DataBase.BlockData;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import software.pidgey.betterlogger.Utilities;
 
 import java.sql.SQLException;
 

@@ -1,26 +1,20 @@
 package software.pidgey.betterlogger;
 
 import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
-import com.j256.ormlite.support.ConnectionSource;
-import com.j256.ormlite.table.TableUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import software.pidgey.betterlogger.BlockData.BlockInteractionData;
-import software.pidgey.betterlogger.BlockData.BlockInteractionEvents;
-import software.pidgey.betterlogger.ChestData.ChestMovementData;
-import software.pidgey.betterlogger.ChestData.ChestMovementEvents;
+import software.pidgey.betterlogger.DataBase.BlockData.BlockInteractionData;
+import software.pidgey.betterlogger.DataBase.BlockData.BlockInteractionEvents;
+import software.pidgey.betterlogger.DataBase.ChestData.ChestMovementData;
+import software.pidgey.betterlogger.DataBase.ChestData.ChestMovementEvents;
 import software.pidgey.betterlogger.Commands.CommandManager;
-import software.pidgey.betterlogger.SQLUtilities;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.sql.*;
 
-import static software.pidgey.betterlogger.SQLUtilities.*;
+import static software.pidgey.betterlogger.DataBase.SQLUtilities.*;
 
 public final class BetterLogger extends JavaPlugin {
 
@@ -43,7 +37,7 @@ public final class BetterLogger extends JavaPlugin {
                 "Plugin.yml");
 
         try{
-            conn = DriverManager.getConnection(connectionURL, "admin", "admin");
+            conn = DriverManager.getConnection(connectionURL);
             connSource = new JdbcConnectionSource(connectionURL);
             sqlOpen();
         }catch (Exception ex){
@@ -51,18 +45,12 @@ public final class BetterLogger extends JavaPlugin {
         }
 
         registerEvents(new Listener[] {new BlockInteractionEvents(), new ChestMovementEvents(this)});
-        registerCommands(new String[] {"queryRaw", ""});
+        getCommand("BetterLogger").setExecutor(new CommandManager());
     }
 
     private void registerEvents(Listener[] listeners) {
         for (Listener listener : listeners) {
             getServer().getPluginManager().registerEvents(listener, this);
-        }
-    }
-
-    private void registerCommands(String[] commands){
-        for(String command : commands){
-            getCommand(command).setExecutor(new CommandManager());
         }
     }
 

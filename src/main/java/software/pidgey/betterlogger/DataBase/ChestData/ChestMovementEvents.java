@@ -1,4 +1,4 @@
-package software.pidgey.betterlogger.ChestData;
+package software.pidgey.betterlogger.DataBase.ChestData;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -47,7 +47,13 @@ public class ChestMovementEvents implements Listener {
             Inventory bottomInventory = inventoryView.getBottomInventory();
 
             if (topInventory.getType() == InventoryType.CHEST && bottomInventory.getType() == InventoryType.PLAYER) {
-                Chest chest = (Chest)topInventory.getHolder();
+                Chest chest = null;
+                try{
+                    chest = (Chest)topInventory.getHolder();
+                }
+                catch (Exception e){
+                    //My Java code is poopoo but Chest is different from Double Chest so the console will be flooded with errors.
+                }
                 Player player = (Player)inventoryClickEvent.getWhoClicked();
                 ItemStack currentItem = inventoryClickEvent.getCurrentItem();
                 NamespacedKey key = new NamespacedKey(minecraftPlugin, "ownerUUID");
